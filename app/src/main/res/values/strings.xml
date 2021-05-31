@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Prueba 1</string>
+
+    <string-array name="lista">
+
+        <item>Selecion..</item>
+        <item>Completo al agua</item>
+        <item>Completo tostado</item>
+        <item>Sopaipilla</item>
+        <item>Empanada</item>
+
+    </string-array>
+
+</resources>
