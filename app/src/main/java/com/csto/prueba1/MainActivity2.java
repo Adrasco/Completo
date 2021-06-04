@@ -15,6 +15,7 @@ public class MainActivity2 extends AppCompatActivity {
 
     private EditText correo, pass1, pass2;
     private RadioButton hombre;
+    private RadioButton mujer;
     private CheckBox micro;
     private Spinner comida;
 
@@ -28,6 +29,7 @@ public class MainActivity2 extends AppCompatActivity {
         pass2 = (EditText) findViewById(R.id.TXT_contraseña2R);
 
         hombre = (RadioButton) findViewById(R.id.RB_1);
+        mujer = (RadioButton) findViewById(R.id.RB_2);
 
         micro = (CheckBox) findViewById(R.id.CB_1);
 
@@ -42,11 +44,12 @@ public class MainActivity2 extends AppCompatActivity {
         String correo = this.correo.getText().toString();
         String pass1 = this.pass1.getText().toString();
         String pass2 = this.pass2.getText().toString();
-        String genero = "";
+        String genero = "Hombre";
         String micro = "no va en micro";
         String comida = this.comida.getSelectedItem().toString();
 
-        if(this.hombre.isSelected()){genero = "Hombre";}else{genero = "mujer";}
+        if(this.hombre.isSelected()){genero = "Hombre";}
+        if(this.mujer.isSelected()){genero = "Mujer";}
         if(this.micro.isSelected()){ micro = "Va en micro";}
 
         if(correo.equals("")){error += "\nCorreo vacio";}

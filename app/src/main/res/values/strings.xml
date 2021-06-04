@@ -7,8 +7,10 @@
         <item>Completo al agua</item>
         <item>Agua mineral</item>
         <item>Pizza</item>
-        <item>Polla panado</item>
+        <item>Pollo panado</item>
 
     </string-array>
+
+    <string name="title_activity_maps">Map</string>
 
 </resources>
