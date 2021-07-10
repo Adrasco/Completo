@@ -11,7 +11,7 @@ public class Base_datos  extends SQLiteOpenHelper {
     public static String BaseDatos = "Base.db";
     public static int vercion = 1;
 
-    public static String tabla_panorama = "CREATE TABLE persona (" +
+    public static String tabla_persona = "CREATE TABLE persona (" +
             "id_persona integer primary key autoincrement , " +
             "nom text , " +
             "pass text, " +
@@ -28,7 +28,7 @@ public class Base_datos  extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        db.execSQL(tabla_panorama);
+        db.execSQL(tabla_persona);
 
     }
 
@@ -36,7 +36,7 @@ public class Base_datos  extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
         db.execSQL("DROP TABLE IF EXISTS panorama");
-        db.execSQL(tabla_panorama);
+        db.execSQL(tabla_persona);
 
     }
 
