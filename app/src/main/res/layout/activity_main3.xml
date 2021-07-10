@@ -27,7 +27,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="608dp"
             android:orientation="horizontal">
 
             <fragment
@@ -37,6 +37,28 @@
                 android:layout_height="match_parent"
                 tools:context=".MapsActivity" />
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_cerrar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="CerrarSecion"
+                android:text="Cerrar secion" />
+
+            <Button
+                android:id="@+id/btn_eliminar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="EliminarSecion"
+                android:text="Eliminar cuenta" />
         </LinearLayout>
     </LinearLayout>
 

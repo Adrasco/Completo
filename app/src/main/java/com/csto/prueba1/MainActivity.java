@@ -1,16 +1,22 @@
 package com.csto.prueba1;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
     private EditText correo, pass;
+
+    private TextView anuncio;
 
     private String correoR, passR, generoR, microR, comidaR;
 
@@ -23,41 +29,43 @@ public class MainActivity extends AppCompatActivity {
 
         correo = (EditText) findViewById(R.id.TXT_correo);
         pass = (EditText) findViewById(R.id.TXT_pass);
+        anuncio = (TextView) findViewById(R.id.txt_anuncio);
 
-        try {
+        try {anuncio.setText(getIntent().getStringExtra("anuncio"));}catch (Exception e){}
 
-            correoR = getIntent().getStringExtra("CORREO");
-            passR = getIntent().getStringExtra("PASS");
-            generoR = getIntent().getStringExtra("GENERO");
-            microR = getIntent().getStringExtra("MICRO");
-            comidaR = getIntent().getStringExtra("COMIDA");
-
-            if(!correoR.equals("")){this.b = true;}
-
-        }catch (Exception e){this.b=false;}
 
     }
 
     public void Reguistrarse(View v){Intent I = new Intent(getApplicationContext(),MainActivity2.class);startActivity(I);}
 
-    public void IniciarSecion(View v){
+    public void IniciarSecion(View v) {
 
-        if(this.b){
+        SQLiteDatabase db;
+        Base_datos conn = new Base_datos(getApplicationContext());
+        db = conn.getReadableDatabase();
 
-            String co = correo.getText().toString();
-            String pas = pass.getText().toString();
+        String SQL = "SELECT id_persona FROM persona " +
+                "WHERE nom = ? and pass  = ? ;";
 
-            if(correoR.equals(co) && passR.equals(pas)) {
+        String[] WHERE = {correo.getText().toString(), pass.getText().toString()};
+
+        Cursor C = db.rawQuery(SQL, WHERE);
+
+        if (C != null) {
+
+            if (C.moveToFirst()) {
 
                 Intent I = new Intent(getApplicationContext(), MainActivity3.class);
-                I.putExtra("CORREO", correoR);
-                I.putExtra("PASS", passR);
-                I.putExtra("GENERO", generoR);
-                I.putExtra("MICRO", microR);
-                I.putExtra("COMIDA", comidaR);
+                I.putExtra("ID", C.getString(0));
                 startActivity(I);
-            }else{Toast.makeText(getApplicationContext(),"Datos de cuenta erroneos", Toast.LENGTH_LONG).show();}
+
+            }else {
+                anuncio.setText("Datos erroneos, registrese");}
+
+        } else {
+            anuncio.setText("Datos erroneos, registrese");
         }
-        else{Toast.makeText(getApplicationContext(),"Registrese", Toast.LENGTH_LONG).show();}}
+
+    }
 
 }

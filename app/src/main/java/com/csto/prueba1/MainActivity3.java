@@ -2,7 +2,11 @@ package com.csto.prueba1;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -17,6 +21,7 @@ public class MainActivity3 extends AppCompatActivity implements OnMapReadyCallba
 
     private TextView texto;
     private GoogleMap mMap;
+    private static String ID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,13 +35,49 @@ public class MainActivity3 extends AppCompatActivity implements OnMapReadyCallba
 
         texto = (TextView) findViewById(R.id.TXT_bienvenida);
 
-        String correoR = getIntent().getStringExtra("CORREO");
-        String passR = getIntent().getStringExtra("PASS");
-        String generoR = getIntent().getStringExtra("GENERO");
-        String microR = getIntent().getStringExtra("MICRO");
-        String comidaR = getIntent().getStringExtra("COMIDA");
+        String id = getIntent().getStringExtra("ID");
 
-        texto.setText("Correo: "+correoR+"\nContraseña: "+passR+"\nGenero: "+generoR+"\n"+microR+"\nComida: "+comidaR);
+        SQLiteDatabase db;
+        Base_datos conn = new Base_datos(getApplicationContext());
+        db = conn.getReadableDatabase();
+
+        String SQL = "SELECT * FROM persona " +
+                "WHERE id_persona = ? ;";
+
+        String[] WHERE = {id};
+
+        Cursor C = db.rawQuery(SQL,WHERE);
+
+        String nombre = "";
+        String pass = "";
+        String sexo = "Mujer";
+        String comida = "";
+        String micro = "Usa mivro";
+
+        if(C!=null){
+
+            if(C.moveToFirst()){
+
+                ID = C.getString(0);
+                nombre = C.getString(1);
+                pass = C.getString(2);
+                comida = C.getString(4);
+
+                if(C.getInt(3) == 0){sexo = "Hombre";}
+                if(C.getInt(5) == 0 ){micro = "Le gusta caminar";}
+
+                texto.setText(
+                        "Usuario: "+nombre+
+                        "\nContraseña: "+pass+
+                        "\nComida favorita: "+comida+
+                        "\nSexo: "+sexo+
+                        "\n"+micro);
+
+            }
+
+        }
+
+
 
     }
 
@@ -50,6 +91,31 @@ public class MainActivity3 extends AppCompatActivity implements OnMapReadyCallba
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 
+    public void CerrarSecion(View v){
+
+        Intent I = new Intent(getApplicationContext(),MainActivity.class);
+        I.putExtra("anuncio","Secion cerrada");
+        startActivity(I);
+
+    }
+
+    public void EliminarSecion(View v){
+
+        Intent I = new Intent(getApplicationContext(),MainActivity.class);
+
+        SQLiteDatabase db;
+        Base_datos conn = new Base_datos(getApplicationContext());
+        db = conn.getReadableDatabase();
+
+        String where = " id_persona = ? ";
+        String[] PKS = {ID};
+
+        db.delete("persona",where,PKS);
+
+        I.putExtra("anuncio","Usted ahora no existe, por lo tanto no puede leer esto");
+        startActivity(I);
+
+    }
 
 
 }

@@ -2,7 +2,9 @@ package com.csto.prueba1;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
@@ -44,13 +46,12 @@ public class MainActivity2 extends AppCompatActivity {
         String correo = this.correo.getText().toString();
         String pass1 = this.pass1.getText().toString();
         String pass2 = this.pass2.getText().toString();
-        String genero = "Hombre";
-        String micro = "no va en micro";
+        int genero = 0;
+        int micro = 0;
         String comida = this.comida.getSelectedItem().toString();
 
-        if(this.hombre.isSelected()){genero = "Hombre";}
-        if(this.mujer.isSelected()){genero = "Mujer";}
-        if(this.micro.isSelected()){ micro = "Va en micro";}
+        if(this.mujer.isSelected()){genero = 1;}
+        if(this.micro.isSelected()){ micro = 1;}
 
         if(correo.equals("")){error += "\nCorreo vacio";}
         if(pass1.equals("")){error += "\nContraseña vacia";}
@@ -63,14 +64,33 @@ public class MainActivity2 extends AppCompatActivity {
         else{
 
             Intent I = new Intent(getApplicationContext(),MainActivity.class);
-            I.putExtra("CORREO",correo);
-            I.putExtra("PASS",pass1);
-            I.putExtra("GENERO",genero);
-            I.putExtra("MICRO",micro);
-            I.putExtra("COMIDA",comida);
+
+            SQLiteDatabase db;
+            Base_datos conn = new Base_datos(getApplicationContext());
+            db = conn.getWritableDatabase();
+
+            ContentValues CV = new ContentValues();
+
+            CV.put("nom", correo);
+            CV.put("pass", pass1);
+            CV.put("sexo", genero);
+            CV.put("comida", comida);
+            CV.put("micro", micro);
+
+            db.insert("persona", null,CV);
+
+            I.putExtra("anuncio","Cuenta creada, ahora existe");
             startActivity(I);
 
         }
+
+    }
+
+    public void CerrarSecion(View v){
+
+        Intent I = new Intent(getApplicationContext(),MainActivity.class);
+        I.putExtra("anuncio","Bienvenido, recuerda que tienes que registrarte para entrar");
+        startActivity(I);
 
     }
 
