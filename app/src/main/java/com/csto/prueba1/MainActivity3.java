@@ -52,7 +52,7 @@ public class MainActivity3 extends AppCompatActivity implements OnMapReadyCallba
         String pass = "";
         String sexo = "Mujer";
         String comida = "";
-        String micro = "Usa mivro";
+        String micro = "Usa micro";
 
         if(C!=null){
 
